@@ -56,5 +56,15 @@ class MerchantController extends Controller
             }
     }
 
+    public function index(){
+        $data=Merchant::all();
+        return view('user.merchant')->with('merchants',$data);
+    }
+
+    public function Delete_Merchant($id){
+        Merchant::find($id)->delete();
+        return redirect('/Merchants');
+    }
+
 
 }

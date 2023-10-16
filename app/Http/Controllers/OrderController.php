@@ -43,8 +43,39 @@ class OrderController extends Controller
         $orders_data= Order::Where('vehicle_id',auth('sanctum')->user()->vehicle_id)->get();
         return $this->handelResponse($orders_data,'These are all orders');
     }
-
+    //////////////////////////////////////////
     public function price_offer(){
         return Order::with('offer')->get();
     }
+
+    public function index(){
+        $data=Order::all();
+        return view('orders.all_orders')->with('orders',$data);
+    }
+
+    public function Delete_orders($id){
+        Order::find($id)->delete();
+        return redirect('/Order');
+    }
+
+    public function order_pending(){
+        $data=Order::Where('status','pending')->get();
+        return view('orders.order_pending')->with('orders',$data);
+
+    }
+    public function order_delivery(){
+        $data=Order::Where('status','in_delivery')->get();
+        return view('orders.order_delivery')->with('orders',$data);
+
+    }
+    public function order_complete(){
+        $data=Order::Where('status','complete')->get();
+        return view('orders.order_comblete')->with('orders',$data);
+
+    }
+
+
+
+
+
 }

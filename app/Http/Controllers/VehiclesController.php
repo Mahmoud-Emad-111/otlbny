@@ -23,13 +23,28 @@ class VehiclesController extends Controller
         $res=[
             'vehicle name'=>$vehicle->vehicle,
         ];
-        return $this->handelResponse($res,'The vehicle has been added successfully');
+        return redirect('/Vehicles');
 
     }
-    
+
     public function get(){
         $vehicles=Vehicles::all();
         return $this->handelResponse($vehicles,'This is all the vehicle information');
 
     }
+
+    public function index(){
+        $data=Vehicles::all();
+        return view('vehicles.index')->with('vehicles',$data);
+    }
+
+    public function Delete_Vehicle($id){
+        Vehicles::find($id)->delete();
+        return redirect('/Vehicles');
+    }
+
+    public function Create(){
+       return view('vehicles.add');
+    }
+
 }

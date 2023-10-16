@@ -22,6 +22,8 @@ return new class extends Migration
             $table->longText('description');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('vehicle_id')->constrained()->onDelete('cascade');
+            $table->enum('status',['pending','in_delivery','complete'])->default('pending');
+
             $table->timestamps();
         });
     }

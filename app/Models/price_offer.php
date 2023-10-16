@@ -13,6 +13,7 @@ class price_offer extends Model
         'price',
         'order_id',
         'delivery_id',
+        'status',
     ];
 
 }

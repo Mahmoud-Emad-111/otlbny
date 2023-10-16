@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeliveryRequest;
 use App\Models\Delivery;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -77,6 +78,7 @@ class DeliveryController extends Controller
                     'token'=>$delivery->createToken($request->phone)->plainTextToken,
                     'name'=>$delivery->name,
                     'image'=>'delivery_image/'.$delivery->image,
+
                 ];
                 return $this->handelResponse($response,'You have been Delivery Login successfully');
             }
@@ -86,5 +88,39 @@ class DeliveryController extends Controller
             }
     }
 
+
+    public function index(){
+        $data=Delivery::all();
+        return view('user.delivery')->with('deliveries',$data);
+    }
+
+    public function Delete_Delivery($id){
+        Delivery::find($id)->delete();
+        return redirect('/Delivery');
+    }
+
+    public function change_status($id,Request $request){
+        $status= Delivery::find($id)->first();
+        $status->status=$request->delivery_status;
+        $status->save();
+        return redirect('/Delivery');
+
+    }
+
+
+    public function order_complete(Request $request){
+        $validate=Validator::make($request->all(),[
+            'order_id'=> 'required',
+            ]);
+
+        if($validate->fails()){
+                return response()->json($validate->errors());
+        }
+        $order=Order::find($request->order_id);
+        $order->status='complete';
+        $order->save();
+        return $this->handelResponse('','order complete');
+
+    }
 
 }

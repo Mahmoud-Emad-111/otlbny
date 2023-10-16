@@ -52,5 +52,14 @@ class UserController extends Controller
             }
     }
 
-    
+    public function index(){
+        $data=User::all();
+        return view('user.client')->with('clients',$data);
+    }
+
+    public function Delete_User($id){
+        User::find($id)->delete();
+        return redirect('/Client');
+    }
+
 }

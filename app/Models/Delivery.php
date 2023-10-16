@@ -20,11 +20,12 @@ class Delivery extends Authenticatable
         'card_image',
         'license_image',
         'image',
+        'status'
     ];
     protected $hidden = [
         'password',
     ];
-    
+
     public function vehicle(){
         return $this->belongsTo(Vehicles::class);
     }

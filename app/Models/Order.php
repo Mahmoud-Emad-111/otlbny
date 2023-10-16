@@ -16,6 +16,7 @@ class Order extends Model
         'description',
         'user_id',
         'vehicle_id',
+        'status'
     ];
     public function vehicle(){
         return $this->belongsTo(Vehicles::class);

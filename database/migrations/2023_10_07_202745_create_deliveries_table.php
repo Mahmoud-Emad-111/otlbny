@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('card_image');
             $table->string('license_image');
             $table->string('image');
+            $table->enum('status',['pending','accepted'])->default('pending');
+
             $table->timestamps();
         });
     }
