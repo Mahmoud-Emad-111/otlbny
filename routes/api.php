@@ -14,6 +14,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PriceOfferController;
 use App\Http\Controllers\VehiclesController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +40,7 @@ Route::prefix('client')->controller(UserController::class)->group(function(){
 Route::prefix('delivery')->controller(DeliveryController::class)->group(function(){
     Route::post('Register','Register');
     Route::post('Login','Login');
-    Route::post('order_complete','order_complete')->middleware('auth:sanctum');
+    Route::post('order_complete','order_complete')->middleware('check_status')->middleware('auth:sanctum');
 });
 
 Route::prefix('merchant')->controller(MerchantController::class)->group(function(){
@@ -55,23 +56,39 @@ Route::prefix('vehicle')->controller(VehiclesController::class)->group(function(
 Route::prefix('order')->middleware('auth:sanctum')->controller(OrderController::class)->group(function(){
     Route::post('insert','Store');
     Route::get('get','get');
+
 });
 
 Route::prefix('merchant_order')->middleware('auth:sanctum')->controller(MerchantOrderController::class)->group(function(){
-    Route::post('insert','Store');
-    Route::get('get','get');
+    Route::post('insert','Store')->middleware('check_status');
+    Route::get('get','get')->middleware('check_status');
 });
 
 Route::prefix('price_offer')->middleware('auth:sanctum')->controller(PriceOfferController::class)->group(function(){
-    Route::post('insert','Store');
+    Route::post('insert','Store')->middleware('check_status');
     Route::get('get','get');
     Route::post('approved','approved');
     Route::post('Rejection','Rejection');
 });
 
 Route::prefix('merchant_delivery')->middleware('auth:sanctum')->controller(MerchantDeliveryController::class)->group(function(){
-    Route::post('approved','approved');
+    Route::post('approved','approved')->middleware('check_status');
     // Route::post('Rejection','Rejection');
 });
 
 
+Route::get('/Profile',function(){
+    return response()->json([
+        'data'=>auth('sanctum')->user(),
+
+    ]);
+})->middleware('auth:sanctum');
+
+
+Route::get('/Logout',function(){
+    auth('sanctum')->user()->tokens()->delete();
+    return response()->json([
+        'message'=>'Completely logout successfully',
+
+    ]);
+});

@@ -56,6 +56,7 @@ class MerchantController extends Controller
             }
     }
 
+
     public function index(){
         $data=Merchant::all();
         return view('user.merchant')->with('merchants',$data);
@@ -66,5 +67,42 @@ class MerchantController extends Controller
         return redirect('/Merchants');
     }
 
+
+
+    public function change_status($id,Request $request){
+        $status= Merchant::find($id)->first();
+        $status->status=$request->merchants_status;
+        $status->save();
+        return redirect('/Merchants');
+
+    }
+
+    public function commission($id){
+        $merchant=Merchant::find($id);
+        return view('merchant.commission')->with('data',$merchant);
+    }
+
+    public function Add_commission(Request $request){
+        Merchant::find($request->id)->update([
+            'minimum_shipping'=>$request->minimum_shipping,
+            'maximum_shipping'=>$request->maximum_shipping,
+            'commission'=>$request->commission,
+
+        ]);
+
+        return redirect('/Merchants');
+
+
+    }
+
+    public function money($id){
+        $data=Merchant::with('orders')->find($id);
+        $total=0;
+        foreach ($data['orders'] as $order) {
+            $total+=$order->total;
+        }
+        return view('merchant.moneys')->with('data',$data)->with('total',$total);
+
+    }
 
 }

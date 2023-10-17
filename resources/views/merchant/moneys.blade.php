@@ -27,6 +27,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
+        <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
@@ -135,76 +136,67 @@
             <!-- Main Content -->
             <div id="content">
 
-                 <!-- Topbar -->
-                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                 </nav>
+                </nav>
+
                 <!-- End of Topbar -->
+
                 <div class="card-body" style="background-color: white;color:black;">
                     <div class="table-responsive">
+
+                        <h1 class="btn btn-success  btn-sm">Total => {{$total}}</h1>
+                        <h1 class="btn btn-primary  btn-sm">commission => {{$total * ($data->commission/100)}}</h1>
                         <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Company</th>
+                                    <th>From</th>
+                                    <th>Name</th>
                                     <th>Phone</th>
-                                    <th>Extra Phone</th>
-                                    <th>National ID</th>
-                                    <th>Address</th>
-                                    <th>Status</th>
+                                    <th>description</th>
+                                    <th>Price</th>
+                                    <th>Shipping Rate</th>
+                                    <th>Total</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach ($merchants as $merchant )
+                                @foreach ($data['orders'] as $order )
                                 <tr>
-                                    <td>{{$merchant->id}}</td>
-                                    <td>{{$merchant->company}}</td>
-                                    <td>{{$merchant->phone}}</td>
-                                    <td>{{$merchant->extra_phone}}</td>
-                                    <td>{{$merchant->national_id}}</td>
-                                    <td>{{$merchant->address}}</td>
+                                    <td>{{$order->id}}</td>
+                                    <td>{{$order->to}}</td>
+                                    <td>{{$order->name}}</td>
+                                    <td>{{$order->phone}}</td>
+                                    <td>{{$order->description}}</td>
+                                    <td>{{$order->price}}</td>
+                                    <td>{{$order->shipping_rate}}</td>
+                                    <td>{{$order->total}}</td>
 
-
-
-                                    <td class="d-flex">
-                                        <form method="POST" action="{{Route('Change-status-merchant',$merchant->id)}}" style="
-                                        display: flex;
-                                        flex-direction: column;
-                                        justify-content: center;
-                                        width: 100%;"
-
-                                        >
-                                            @csrf
-
-                                        <select  class="form-control" name="merchants_status">
-                                            <option {{old('accepted',$merchant->status)=="accepted"? 'selected':''}} value="accepted">accepted</option>
-                                            <option {{old('pending',$merchant->status)=="pending"? 'selected':''}} value="pending">pending</option>
-                                        </select>
-                                        <button  type="submit" style="margin-top: 10px; " class="btn btn-info   btn-sm">
-                                            Save
-                                        </button>
-                                    </form>
-                                    </td>
-
-                                    <td >
+                                    <td>
                                         <div class="row">
+                                            {{-- <div class="col">
+                                                <a href="{{ route('order.edit', $order) }}" class="btn btn-success btn-circle btn-sm">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                            </div>
                                             <div class="col">
-                                                <form id="FormDeleteTime" method="post" action="{{ route('Delete-merchant', $merchant->id) }}">
+                                                <a href="{{ route('order.show', $order) }}" class="btn btn-info btn-circle btn-sm">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                            </div> --}}
+                                            <div class="col">
+                                                <form id="FormDeleteTime" method="post" action="{{ route('Delete-order-merchant', $order->id) }}">
                                                     @csrf
 
                                                     <button type="submit" class="btn btn-danger  btn-sm">
-                                                        Delete Merchant
+                                                        Delete order
                                                     </button>
                                                 </form>
                                             </div>
                                         </div>
-                                        <br>
-                                        {{-- <button class="btn btn-primary  btn-sm">Commission</button> --}}
-                                        <a href="{{ route('commission', $merchant->id) }}"  class="btn btn-primary  btn-sm">Commission</a>
-                                        <a href="{{ route('money', $merchant->id) }}"  class="btn btn-warning  btn-sm">Moneys</a>
-
                                     </td>
 
 

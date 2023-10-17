@@ -29,6 +29,12 @@ class MerchantOrderController extends Controller
     public function get(){
         $orders_data=merchant_order::all();
         return $this->handelResponse($orders_data,'These are all orders');
+        
+    }
 
+
+    public function Delete_order($id){
+        merchant_order::find($id)->delete();
+        return redirect()->back();
     }
 }

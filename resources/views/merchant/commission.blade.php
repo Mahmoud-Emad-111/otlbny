@@ -134,97 +134,86 @@
 
             <!-- Main Content -->
             <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                 <!-- Topbar -->
-                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                 </nav>
+                </nav>
                 <!-- End of Topbar -->
-                <div class="card-body" style="background-color: white;color:black;">
-                    <div class="table-responsive">
-                        <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Company</th>
-                                    <th>Phone</th>
-                                    <th>Extra Phone</th>
-                                    <th>National ID</th>
-                                    <th>Address</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
 
-                            <tbody>
-                                @foreach ($merchants as $merchant )
-                                <tr>
-                                    <td>{{$merchant->id}}</td>
-                                    <td>{{$merchant->company}}</td>
-                                    <td>{{$merchant->phone}}</td>
-                                    <td>{{$merchant->extra_phone}}</td>
-                                    <td>{{$merchant->national_id}}</td>
-                                    <td>{{$merchant->address}}</td>
+                <div class="container">
+                    <div class="row">
 
 
+                        <div class="col-lg-12 order-lg-1">
 
-                                    <td class="d-flex">
-                                        <form method="POST" action="{{Route('Change-status-merchant',$merchant->id)}}" style="
-                                        display: flex;
-                                        flex-direction: column;
-                                        justify-content: center;
-                                        width: 100%;"
+                            <div class="card shadow mb-4">
 
-                                        >
-                                            @csrf
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">commision</h6>
+                                </div>
 
-                                        <select  class="form-control" name="merchants_status">
-                                            <option {{old('accepted',$merchant->status)=="accepted"? 'selected':''}} value="accepted">accepted</option>
-                                            <option {{old('pending',$merchant->status)=="pending"? 'selected':''}} value="pending">pending</option>
-                                        </select>
-                                        <button  type="submit" style="margin-top: 10px; " class="btn btn-info   btn-sm">
-                                            Save
-                                        </button>
-                                    </form>
-                                    </td>
+                                <div class="card-body">
 
-                                    <td >
-                                        <div class="row">
-                                            <div class="col">
-                                                <form id="FormDeleteTime" method="post" action="{{ route('Delete-merchant', $merchant->id) }}">
-                                                    @csrf
+                                    <form method="POST" action="/Add_commission" autocomplete="off">
+                                        @csrf
+                                        <h6 class="heading-small text-muted mb-4">commision information</h6>
+                                        {{-- {{$data->id}} --}}
+                                        <input type="hidden" name="id" value="{{$data->id}}">
+                                        <div class="pl-lg-4">
+                                            <div class="row">
 
-                                                    <button type="submit" class="btn btn-danger  btn-sm">
-                                                        Delete Merchant
-                                                    </button>
-                                                </form>
+                                                <div class="col-lg-4">
+
+                                                    <div class="form-group focused">
+                                                        <label class="form-control-label" for="name">Minimum Shipping<span
+                                                                class="small text-danger">*</span></label>
+                                                        <input type="number" id="name" class="form-control" name="minimum_shipping"
+                                                            placeholder="Minimum Shipping" value="4">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-4">
+                                                    <div class="form-group focused">
+                                                        <label class="form-control-label" for="name">Maximum Shipping<span
+                                                                class="small text-danger">*</span></label>
+                                                        <input type="number" id="name" class="form-control" name="maximum_shipping"
+                                                            placeholder="Maximum Shipping" value="{{$data->maximum_shipping}}">
+                                                    </div>
+                                                </div>
+                                                <h1></h1>
+
+                                                <div class="col-lg-4">
+                                                    <div class="form-group focused">
+                                                        <label class="form-control-label" for="name">Commission %<span
+                                                                class="small text-danger">*</span></label>
+                                                        <input type="number" id="name" class="form-control" name="commission"
+                                                            placeholder="Commission" value="{{$data->commission}}">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Button -->
+                                        <div class="pl-lg-4">
+                                            <div class="row">
+                                                <div class="col text-center">
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <br>
-                                        {{-- <button class="btn btn-primary  btn-sm">Commission</button> --}}
-                                        <a href="{{ route('commission', $merchant->id) }}"  class="btn btn-primary  btn-sm">Commission</a>
-                                        <a href="{{ route('money', $merchant->id) }}"  class="btn btn-warning  btn-sm">Moneys</a>
+                                    </form>
 
-                                    </td>
+                                </div>
 
+                            </div>
 
-                                </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-
+                        </div>
 
                     </div>
                 </div>
-
-
-
-
-
-
-
-
             </div>
     </div>
     </div>

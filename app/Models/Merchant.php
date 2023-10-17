@@ -18,6 +18,9 @@ class Merchant extends Authenticatable
         'extra_phone',
         'national_id',
         'address',
+        'minimum_shipping',
+        'maximum_shipping',
+        'commission',
     ];
     protected $hidden = [
         'password',

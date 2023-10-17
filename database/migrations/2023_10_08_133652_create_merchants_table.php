@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('national_id');
             $table->string('password');
             $table->string('address');
-
+            $table->integer('minimum_shipping')->nullable();
+            $table->integer('maximum_shipping')->nullable();
+            $table->enum('status',['pending','accepted'])->default('pending');
+            $table->tinyInteger('commission')->nullable();
             $table->timestamps();
         });
     }

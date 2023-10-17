@@ -12,6 +12,16 @@ class OrderController extends Controller
 {
     //
     public function Store(OrderRequest $request){
+
+        $user=auth('sanctum')->user();
+        $status=Order::Where('user_id',$user->id)->Where('status','!=','complete')->exists();
+
+        if($status){
+        return $this->handelResponse('','You cannot add a new order before it completes the current order');
+
+        }
+
+
     ##################Order image##############################
         // $card_image=$request->file('card_image');
         if ($request->hasFile('image')) {
@@ -37,6 +47,13 @@ class OrderController extends Controller
         return $this->handelResponse('','The order has been added successfully');
 
     }
+    ////////////////logout/////////////////////////
+
+
+    public function Logout(){
+            
+    }
+
 
     #################get all order data#####################
     public function get(){
@@ -53,7 +70,7 @@ class OrderController extends Controller
         return view('orders.all_orders')->with('orders',$data);
     }
 
-    public function Delete_orders($id){
+    public function Delete_order($id){
         Order::find($id)->delete();
         return redirect('/Order');
     }
@@ -73,7 +90,6 @@ class OrderController extends Controller
         return view('orders.order_comblete')->with('orders',$data);
 
     }
-
 
 
 
